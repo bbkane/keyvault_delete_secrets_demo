@@ -28,8 +28,7 @@ Argument 'enable_soft_delete' has been deprecated and will be removed in a futur
 "--enable-soft-delete false" has been deprecated, you cannot disable Soft Delete via CLI. The value will be changed to true.
 ```
 
-# Behavior of GetSecretsComplete vs GetDeletedSecretsComplete
+# How can I exclude deleted certificates from GetSecretsComplete ?
 
-What is the difference between GetSecretsComplete and GetDeletedSecretsComplete ?
-
-It looks like GetDeletedSecretsComplete always returns an empty list?
+When I call GetSecretsComplete, it returns secrets who's certificates have been deleted.
+How do I exclude them? GetDeletedSecretsComplete seems to always return an empty list

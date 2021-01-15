@@ -87,6 +87,8 @@ func listSecrets(kvClient keyvault.BaseClient, vaultURL string) {
 	panicOn(err)
 	for secrets.NotDone() {
 		secret := secrets.Value()
+		// this is always true
+		// fmt.Printf("%#v\n", *secret.Attributes.Enabled)
 		fmt.Println(*secret.ID)
 		err = secrets.NextWithContext(context.Background())
 		panicOn(err)
@@ -111,6 +113,7 @@ func demo(kvClient keyvault.BaseClient, vaultURL string, certName string) {
 	createCertificate(kvClient, vaultURL, certName)
 	time.Sleep(5 * time.Second)
 
+	// list secrets and deleted secrets
 	listSecrets(kvClient, vaultURL)
 	listDeleteSecrets(kvClient, vaultURL)
 
@@ -121,10 +124,9 @@ func demo(kvClient keyvault.BaseClient, vaultURL string, certName string) {
 	fmt.Printf("deletion status: %v\n", result.Status)
 	time.Sleep(5 * time.Second)
 
-	// list secrets
+	// list secrets and deleted secrets
 	fmt.Println("# This should not list the secret for the deleted certificates")
 	listSecrets(kvClient, vaultURL)
-
 	listDeleteSecrets(kvClient, vaultURL)
 
 	fmt.Println("# Demo done")
@@ -142,19 +144,17 @@ func run() error {
 		return err
 	}
 
-	if len(os.Args) != 3 {
-		err = errors.New("Usage: keyvault_delete_secrets_demo no-soft-delete-kv-name with-soft-delete-kv-name")
+	if len(os.Args) != 2 {
+		err = errors.New("Usage: keyvault_delete_secrets_demo kv-name")
 		return err
 	}
 
-	// vaultNoSoftDeleteURL := "https://" + os.Args[1] + ".vault.azure.net"
-	vaultSoftDeleteURL := "https://" + os.Args[2] + ".vault.azure.net"
+	vaultURL := "https://" + os.Args[1] + ".vault.azure.net"
 	rand.Seed(time.Now().UnixNano())
 	certRand := strconv.Itoa(rand.Intn(1000))
 	certName := "soft-delete-demo-" + certRand
 
-	// demo(kvClient, vaultNoSoftDeleteURL, certName)
-	demo(kvClient, vaultSoftDeleteURL, certName)
+	demo(kvClient, vaultURL, certName)
 
 	return nil
 }
