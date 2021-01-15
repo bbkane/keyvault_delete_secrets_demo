@@ -78,6 +78,7 @@ func createCertificate(kvClient keyvault.BaseClient, vaultURL string, certName s
 	panicOn(err)
 
 	fmt.Printf("createdID: %v, status: %v, statusDetails: %v\n", *result.ID, *result.Status, *result.StatusDetails)
+	fmt.Println("# Create Certificate Done")
 }
 
 func listSecrets(kvClient keyvault.BaseClient, vaultURL string) {
@@ -93,6 +94,7 @@ func listSecrets(kvClient keyvault.BaseClient, vaultURL string) {
 		err = secrets.NextWithContext(context.Background())
 		panicOn(err)
 	}
+	fmt.Println("# Listing secrets done")
 }
 
 func listDeleteSecrets(kvClient keyvault.BaseClient, vaultURL string) {
@@ -105,6 +107,7 @@ func listDeleteSecrets(kvClient keyvault.BaseClient, vaultURL string) {
 		err = secrets.NextWithContext(context.Background())
 		panicOn(err)
 	}
+	fmt.Println("# Listing Deletes Secrets done")
 }
 
 func demo(kvClient keyvault.BaseClient, vaultURL string, certName string) {
@@ -123,6 +126,7 @@ func demo(kvClient keyvault.BaseClient, vaultURL string, certName string) {
 	panicOn(err)
 	fmt.Printf("deletion status: %v\n", result.Status)
 	time.Sleep(5 * time.Second)
+	fmt.Println("# Deleting certificate done")
 
 	// list secrets and deleted secrets
 	fmt.Println("# This should not list the secret for the deleted certificates")
