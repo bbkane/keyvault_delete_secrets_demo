@@ -19,14 +19,14 @@ az group create \
 
 az keyvault create \
     --location "$location" \
-    --name "with-soft-delete-$rand" \
+    --name "no-soft-delete-$rand" \
     --resource-group "$rg_name" \
-    --enable-soft-delete true \
+    --enable-soft-delete false \
     --sku standard
 
 az keyvault create \
     --location "$location" \
-    --name "no-soft-delete-$rand" \
+    --name "with-soft-delete-$rand" \
     --resource-group "$rg_name" \
     --enable-soft-delete true \
     --sku standard
@@ -34,6 +34,7 @@ az keyvault create \
 # turn off command printing
 { set +x; } 2>/dev/null
 
-echo "Created:"
-echo "- with-soft-delete-$rand"
+echo "Created keyvaults:"
 echo "- no-soft-delete-$rand"
+echo "- with-soft-delete-$rand"
+echo "next step: go run . no-soft-delete-$rand with-soft-delete-$rand"
